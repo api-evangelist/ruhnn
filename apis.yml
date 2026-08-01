@@ -1,7 +1,29 @@
 aid: ruhnn
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ruhnn.png
 name: ruhnn
-description: ruhnn is a company surfaced as a portfolio company of qiming and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Ruhnn Holding Limited (如涵控股) is a Hangzhou-based Chinese influencer (KOL)
+  incubation, marketing, and e-commerce company. It pioneered the "internet
+  celebrity" (wanghong) commercialization model, signing and developing
+  influencers and monetizing their audiences through self-operated online
+  stores on marketplaces such as Taobao and Tmall, as well as through a
+  platform/advertising business that connects its network of KOLs with
+  third-party brands for social-marketing campaigns. The company listed on
+  NASDAQ under the ticker RUHN in 2019 and was subsequently taken private. It
+  is surfaced here as a portfolio company of Qiming Venture Partners. Ruhnn is
+  a consumer-facing influencer marketing and commerce operator and does not
+  publish a public developer platform, API, or SDK surface.
 url: https://raw.githubusercontent.com/api-evangelist/ruhnn/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,9 +33,16 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
+- Influencer Marketing
+- E-Commerce
+- KOL
+- Social Commerce
+- Marketing
+- China
+- Consumer
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -21,5 +50,12 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/ruhnn-domain-security.yml
 - type: Website
   url: https://ruhnn.com
+x-enrichment:
+  date: '2026-07-21'
+  status: minimal
+  artifacts_added: 1
+  pass: local-v1

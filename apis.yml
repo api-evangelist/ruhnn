@@ -33,7 +33,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-13'
 tags:
 - Company
 - Influencer Marketing
@@ -52,10 +52,31 @@ maintainers:
 common:
 - type: DomainSecurity
   url: security/ruhnn-domain-security.yml
+- type: LLMsTxt
+  url: llms/ruhnn-llms.txt
 - type: Website
   url: https://ruhnn.com
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-13'
   status: minimal
-  artifacts_added: 1
+  artifacts_added: 2
   pass: local-v1
+x-coverage:
+  state: none
+  reason: no-developer-program
+  detail: >-
+    Ruhnn runs two client-rendered SPAs — the ruhnn.com corporate site and the
+    www.kol18.com (爱推广) KOL/merchant platform — and neither exposes a developer
+    surface: api., open., developer., dev., docs. and openapi.ruhnn.com all
+    return NXDOMAIN, and every spec and /.well-known path on both hosts answers
+    200 with the identical HTML app shell rather than a document.
+  evidence:
+  - url: https://ruhnn.com/openapi.json
+    status: 200
+  - url: https://ruhnn.com/.well-known/agent-card.json
+    status: 200
+  - url: https://www.kol18.com/v2/api-docs
+    status: 200
+  - url: https://api.github.com/orgs/ruhnn
+    status: 404
+  checked: '2026-08-13'

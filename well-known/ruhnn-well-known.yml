@@ -1,0 +1,152 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  Live GET probes of /.well-known/* and contract-discovery paths on every host
+  Ruhnn operates that we could identify: ruhnn.com (the corporate site) and
+  www.kol18.com (爱推广 / Aituiguang, the KOL platform whose own <title> reads
+  "爱推广-如涵旗下红人平台" — "the KOL platform under Ruhnn").
+summary: >-
+  No well-known document is served on any Ruhnn host. Both sites are
+  client-rendered single-page apps with a catch-all route: EVERY path returns
+  HTTP 200 with the identical HTML app shell (3,360 bytes on ruhnn.com,
+  6,241 bytes on www.kol18.com), including paths that certainly do not exist.
+  A 200 here is the SPA fallback, not a document, so every row below is scored
+  as a MISS. No WellKnown or SecurityTxt pointer is emitted in apis.yml.
+  The one genuine document served anywhere is ruhnn.com/robots.txt
+  (67 bytes, text/plain, "User-agent: * / Disallow:") — a real file, but not a
+  well-known resource and not an API signal.
+hosts:
+- host: ruhnn.com
+  shell_bytes: 3360
+  shell_signature: '<!doctype html><html lang="en"><head><meta charset="utf-8"/>'
+  probes:
+  - path: /.well-known/security.txt
+    status: 200
+    result: miss
+    note: SPA shell, not a document
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: miss
+    note: SPA shell, not a document
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: miss
+    note: SPA shell, not a document
+    file: null
+  - path: /.well-known/api-catalog
+    status: 200
+    result: miss
+    note: SPA shell, not a document
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    result: miss
+    note: SPA shell, not a document
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: miss
+    note: SPA shell, not an AgentCard — no a2a/ artifact written
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    result: miss
+    note: SPA shell, not an AgentCard (legacy pre-0.3 path)
+    file: null
+  - path: /llms.txt
+    status: 200
+    result: miss
+    note: SPA shell, not an llms.txt
+    file: null
+  - path: /robots.txt
+    status: 200
+    result: hit-non-wellknown
+    note: >-
+      Real 67-byte text/plain file, "User-agent: * / Disallow:" — allows
+      everything. Recorded for completeness; not a well-known document.
+    file: null
+- host: www.kol18.com
+  shell_bytes: 6241
+  shell_signature: '<!doctype html><html><head><meta charset="UTF-8"/>'
+  probes:
+  - path: /.well-known/security.txt
+    status: 200
+    result: miss
+    note: SPA shell, not a document
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: miss
+    note: SPA shell, not an AgentCard
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    result: miss
+    note: SPA shell, not an AgentCard
+    file: null
+  - path: /llms.txt
+    status: 200
+    result: miss
+    note: SPA shell, not an llms.txt
+    file: null
+  - path: /robots.txt
+    status: 200
+    result: miss
+    note: >-
+      Returns the 6,241-byte SPA shell rather than a robots file — this host
+      serves no robots.txt at all.
+    file: null
+contract_discovery:
+  note: >-
+    STEP 0b was run in full before concluding no contract exists. Every REST
+    OpenAPI path, the GraphQL path, and both agent-card paths returned the same
+    SPA shell on both hosts. No API subdomain resolves.
+  openapi_paths_probed:
+  - {host: 'ruhnn.com', path: /openapi.json, status: 200, result: html-shell}
+  - {host: 'ruhnn.com', path: /openapi.yaml, status: 200, result: html-shell}
+  - {host: 'ruhnn.com', path: /swagger.json, status: 200, result: html-shell}
+  - {host: 'ruhnn.com', path: /v1/openapi.json, status: 200, result: html-shell}
+  - {host: 'ruhnn.com', path: /api-docs, status: 200, result: html-shell}
+  - {host: 'ruhnn.com', path: /docs, status: 200, result: html-shell}
+  - {host: 'ruhnn.com', path: /redoc, status: 200, result: html-shell}
+  - {host: 'www.kol18.com', path: /openapi.json, status: 200, result: html-shell}
+  - {host: 'www.kol18.com', path: /swagger.json, status: 200, result: html-shell}
+  - {host: 'www.kol18.com', path: /v2/api-docs, status: 200, result: html-shell}
+  - {host: 'www.kol18.com', path: /api-docs, status: 200, result: html-shell}
+  - {host: 'www.kol18.com', path: /doc.html, status: 200, result: html-shell}
+  graphql:
+  - {host: 'ruhnn.com', path: /graphql, status: 200, result: html-shell, introspection: not-attempted-non-json}
+  subdomains_probed:
+    note: >-
+      All returned NXDOMAIN (no A record); nothing to probe. This is the
+      strongest single signal that there is no developer surface.
+    hosts:
+    - {host: api.ruhnn.com, dns: NXDOMAIN}
+    - {host: open.ruhnn.com, dns: NXDOMAIN}
+    - {host: developer.ruhnn.com, dns: NXDOMAIN}
+    - {host: dev.ruhnn.com, dns: NXDOMAIN}
+    - {host: docs.ruhnn.com, dns: NXDOMAIN}
+    - {host: openapi.ruhnn.com, dns: NXDOMAIN}
+  javascript_bundle_review:
+    note: >-
+      ruhnn.com's compiled bundle (static/js/main.eaadb1ed.chunk.js, 400 KB) was
+      read directly to find the XHR base the site itself calls. It contains no
+      baseURL, no /api/ path, and no backend host — every absolute URL in it is
+      either a static image on ruhnn-web.oss-cn-hangzhou.aliyuncs.com, the Feishu
+      careers board, the Baidu analytics tag, or www.kol18.com. The corporate
+      site is fully static; there is no application API behind it.
+    routes_found:
+    - / and /home
+    - /about
+    - /advertising
+    - /coBranding
+    - /joinUs
+    - /marketing
+    - /onlineRetailers
+    - /sharing
+    - /starClass
+    - /starIntroduce
+    - /starResources
+    - /404

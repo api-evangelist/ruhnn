@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/ruhnn/integrations
+- https://n8n.io/integrations/ruhnn/
+- https://composio.dev/toolkits/ruhnn
+- https://monid.ai/tools/ruhnn
+checked:
+- https://composio.dev/toolkits/ruhnn
+- https://monid.ai/tools/ruhnn
+- https://n8n.io/integrations/ruhnn/
+- https://zapier.com/apps/ruhnn/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
